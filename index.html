@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Convert Long Link to Short Link with Bitly API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: normal;
+            color: #333;
+            text-align: center;
+        }
+        input[type="text"] {
+            margin-top: 20px;
+            display: block;
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            background-color: #f9f9f9;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        input[type="text"]:focus {
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 6px rgba(0, 0, 0, 0.2);
+        }
+        input[type="submit"] {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+        #short-link {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            background-color: #f9f9f9;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #main{
+            width : 30%;
+            margin: auto;
+            background-color: mediumvioletred;
+            color: white;
+            padding: 5px;
+            border-radius: 20px;
+        }
+
+        @media only screen and (max-width: 600px) and (min-width: 400px)  {
+
+            #main{
+            width : 90%;
+            margin: auto;
+            background-color: mediumvioletred;
+            color: white;
+            padding: 5px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        }
+
+        .btn{
+            margin-top: 10px;
+            border: none;
+            background-color: palevioletred;
+            color: white;
+            padding: 10px;
+        }
+
+        .btn:hover{
+            background-color :mediumvioletred;
+            color: white;
+            padding: 10px;
+        }
+    </style>
+   
+</head>
+<body>
+    <h1 id="main">Pida mota link shortner</h1>
+    <input type="text" id="longLink">
+    <button class="btn" onclick="convertLink()">Click to Short link</button>
+    <input type="text" id="short-link">
+    <button class="btn" onclick="myFunction()">Copy Link</button>
+    </body>
+
+    <script>
+        function convertLink() {
+            const longLink = document.getElementById('longLink').value;
+            const accessToken = '834f62c188eec5d379caeff6bca3f53c7b244ba5';
+            const apiUrl = 'https://api-ssl.bitly.com/v4/shorten';
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    long_url: longLink
+                })
+            })
+
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('short-link').value = data.link;
+                document.getElementById('short-link').style.display = 'block';
+            })
+            .catch(error => console.error(error));
+        }
+
+
+        function myFunction() {
+  // Get the text field
+  var copyText = document.getElementById("short-link");
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value);
+
+  // Alert the copied text
+  
+}
+    </script>
+
+    </html>
+       
